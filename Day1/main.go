@@ -4,10 +4,11 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strconv"
 )
 
 func main() {
-	file, err := os.Open("smallInput.txt")
+	file, err := os.Open("input.txt")
 	if err != nil {
 		panic(err)
 	}
@@ -16,19 +17,42 @@ func main() {
 
 	scanner := bufio.NewScanner(file)
 
+	sum := 0
 	for scanner.Scan() {
 		line := scanner.Text()
-		res := dummyFunc(line)
-		fmt.Println(res)
+		firstNum := findFirstNum(line)
+		lastNum := findLastNum(line)
+		resStr := firstNum + lastNum
+		resNum, err := strconv.Atoi(resStr)
+		fmt.Println(resNum)
+		if err != nil {
+			panic(err)
+		}
+		sum += resNum
 	}
+	fmt.Println(sum)
 
 	if err := scanner.Err(); err != nil {
 		panic(err)
 	}
 }
 
-func dummyFunc(line string) string {
-	p1 := 0
+func findFirstNum(line string) string {
+	for _, ch := range line {
+		if _, err := strconv.Atoi(string(ch)); err != nil {
+		} else {
+			return string(ch)
+		}
+	}
+	return ""
+}
 
-	return string(line[p1])
+func findLastNum(line string) string {
+	for i := len(line) - 1; i >= 0; i-- {
+		if _, err := strconv.Atoi(string(line[i])); err != nil {
+		} else {
+			return string(line[i])
+		}
+	}
+	return ""
 }
