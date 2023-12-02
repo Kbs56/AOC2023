@@ -4,11 +4,13 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"regexp"
 	"strconv"
 )
 
 func main() {
-	file, err := os.Open("smallInput.txt")
+	// file, err := os.Open("smallInput.txt")
+	file, err := os.Open("test.txt")
 	if err != nil {
 		panic(err)
 	}
@@ -18,15 +20,26 @@ func main() {
 	scanner := bufio.NewScanner(file)
 
 	for scanner.Scan() {
-		// line := scanner.Text()
 		// find first and last num, as well as their index
 		// search before the firstNum index and after the lastNum index for a match to "one", "two", "three", etc...
 		// if there is a match get the corresponding mapping
 		// return first number/string number combined with last number/string number
+		line := scanner.Text()
+		firstStr, firstIdx := findFirstNum(line)
+		lastStr, lastIdx := findFirstNum(line)
+		fmt.Println(firstStr, firstIdx)
+		fmt.Println(lastStr, lastIdx)
+
+		firstNumStr := regexSearchFront(firstIdx, line)
+		lastNumStr := regexSearchBack(lastIdx, line)
+		fmt.Println(firstNumStr)
+		fmt.Println(lastNumStr)
+
+		result, _ := strconv.Atoi(firstNumStr + lastNumStr)
+		fmt.Println(result)
 	}
 }
 
-// reutrn index out of this along with string
 func findFirstNum(line string) (string, int) {
 	for i, ch := range line {
 		if _, err := strconv.Atoi(string(ch)); err != nil {
@@ -37,7 +50,6 @@ func findFirstNum(line string) (string, int) {
 	return "", 0
 }
 
-// reutrn index out of this along with string
 func findLastNum(line string) (string, int) {
 	for i := len(line) - 1; i >= 0; i-- {
 		if _, err := strconv.Atoi(string(line[i])); err != nil {
@@ -48,8 +60,32 @@ func findLastNum(line string) (string, int) {
 	return "", 0
 }
 
-func regexSearch(idx int) string {
-	return ""
+func regexSearchFront(idx int, line string) string {
+	pattern := `\b(one|two|three|four|five|six|seven|eight|nine)\b`
+	r, _ := regexp.Compile(pattern)
+	searchStr := line[0:idx]
+	numStr := r.FindString(searchStr)
+
+	if len(numStr) != 0 {
+		num, _ := mapStringtoNum(numStr)
+		return num
+	}
+
+	return numStr
+}
+
+func regexSearchBack(idx int, line string) string {
+	pattern := `\b(one|two|three|four|five|six|seven|eight|nine)\b`
+	r, _ := regexp.Compile(pattern)
+	searchStr := line[(idx + 1):]
+	numStr := r.FindString(searchStr)
+
+	if len(numStr) != 0 {
+		num, _ := mapStringtoNum(numStr)
+		return num
+	}
+
+	return numStr
 }
 
 func mapStringtoNum(str string) (string, error) {
