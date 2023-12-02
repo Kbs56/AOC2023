@@ -50,10 +50,6 @@ func main() {
 		} else {
 			firstNumStr := regexSearchFront(firstIdx, line)
 			lastNumStr := regexSearchBack(lastIdx, line)
-			// fmt.Println(firstNumStr)
-			// fmt.Println(lastNumStr)
-
-			// Need to check here for empty string returned from regex search method
 			if len(firstNumStr) == 0 && len(lastNumStr) != 0 {
 				result, _ := strconv.Atoi(firstStr + lastNumStr)
 				sum += result
