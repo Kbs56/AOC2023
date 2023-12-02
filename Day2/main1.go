@@ -26,10 +26,10 @@ func main() {
 		gameID := getGameID(line)
 		fmt.Println(gameID)
 
-		cubes := getDiceInGame(line)
+		rounds := getDiceInGame(line)
 
-		for _, str := range cubes {
-			fmt.Println(strings.TrimSpace(str))
+		for _, round := range rounds {
+			fmt.Println(strings.TrimSpace(round))
 		}
 	}
 }
