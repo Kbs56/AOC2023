@@ -10,7 +10,8 @@ import (
 
 func main() {
 	// file, err := os.Open("smallInput.txt")
-	file, err := os.Open("test.txt")
+	// file, err := os.Open("test.txt")
+	file, err := os.Open("input.txt")
 	if err != nil {
 		panic(err)
 	}
@@ -19,24 +20,62 @@ func main() {
 
 	scanner := bufio.NewScanner(file)
 
+	sum := 0
 	for scanner.Scan() {
 		// find first and last num, as well as their index
 		// search before the firstNum index and after the lastNum index for a match to "one", "two", "three", etc...
 		// if there is a match get the corresponding mapping
 		// return first number/string number combined with last number/string number
 		line := scanner.Text()
+		fmt.Println(line)
 		firstStr, firstIdx := findFirstNum(line)
-		lastStr, lastIdx := findFirstNum(line)
-		fmt.Println(firstStr, firstIdx)
-		fmt.Println(lastStr, lastIdx)
+		lastStr, lastIdx := findLastNum(line)
+		// fmt.Println(firstStr, firstIdx)
+		// fmt.Println(lastStr, lastIdx)
 
-		firstNumStr := regexSearchFront(firstIdx, line)
-		lastNumStr := regexSearchBack(lastIdx, line)
-		fmt.Println(firstNumStr)
-		fmt.Println(lastNumStr)
+		// What if the index does not exist?
+		// first / lastStr will be empty
+		// Search for all occurences and get the first and last?
 
-		result, _ := strconv.Atoi(firstNumStr + lastNumStr)
-		fmt.Println(result)
+		if len(firstStr) == 0 || len(lastStr) == 0 {
+			arr := fullRegexSearch(line)
+			firstNumStr := arr[0]
+			lastNumStr := arr[len(arr)-1]
+			firstNumStr, _ = mapStringtoNum(firstNumStr)
+			lastNumStr, _ = mapStringtoNum(lastNumStr)
+			result, _ := strconv.Atoi(firstNumStr + lastNumStr)
+			sum += result
+			fmt.Println(result)
+			fmt.Println(sum)
+		} else {
+			firstNumStr := regexSearchFront(firstIdx, line)
+			lastNumStr := regexSearchBack(lastIdx, line)
+			// fmt.Println(firstNumStr)
+			// fmt.Println(lastNumStr)
+
+			// Need to check here for empty string returned from regex search method
+			if len(firstNumStr) == 0 && len(lastNumStr) != 0 {
+				result, _ := strconv.Atoi(firstStr + lastNumStr)
+				sum += result
+				fmt.Println(result)
+				fmt.Println(sum)
+			} else if len(firstNumStr) != 0 && len(lastNumStr) == 0 {
+				result, _ := strconv.Atoi(firstNumStr + lastStr)
+				sum += result
+				fmt.Println(result)
+				fmt.Println(sum)
+			} else if len(firstNumStr) == 0 && len(lastNumStr) == 0 {
+				result, _ := strconv.Atoi(firstStr + lastStr)
+				sum += result
+				fmt.Println(result)
+				fmt.Println(sum)
+			} else {
+				result, _ := strconv.Atoi(firstNumStr + lastNumStr)
+				sum += result
+				fmt.Println(result)
+				fmt.Println(sum)
+			}
+		}
 	}
 }
 
@@ -60,8 +99,16 @@ func findLastNum(line string) (string, int) {
 	return "", 0
 }
 
+func fullRegexSearch(line string) []string {
+	pattern := "one|two|three|four|five|six|seven|eight|nine"
+	r := regexp.MustCompile(pattern)
+
+	res := r.FindAllString(line, -1)
+	return res
+}
+
 func regexSearchFront(idx int, line string) string {
-	pattern := `\b(one|two|three|four|five|six|seven|eight|nine)\b`
+	pattern := "one|two|three|four|five|six|seven|eight|nine"
 	r, _ := regexp.Compile(pattern)
 	searchStr := line[0:idx]
 	numStr := r.FindString(searchStr)
@@ -75,17 +122,17 @@ func regexSearchFront(idx int, line string) string {
 }
 
 func regexSearchBack(idx int, line string) string {
-	pattern := `\b(one|two|three|four|five|six|seven|eight|nine)\b`
+	pattern := "one|two|three|four|five|six|seven|eight|nine"
 	r, _ := regexp.Compile(pattern)
 	searchStr := line[(idx + 1):]
-	numStr := r.FindString(searchStr)
+	numStr := r.FindAllString(searchStr, -1)
 
 	if len(numStr) != 0 {
-		num, _ := mapStringtoNum(numStr)
+		num, _ := mapStringtoNum(numStr[len(numStr)-1])
 		return num
 	}
 
-	return numStr
+	return ""
 }
 
 func mapStringtoNum(str string) (string, error) {
