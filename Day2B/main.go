@@ -59,11 +59,11 @@ func checkValidRounds(rounds []string) map[string]int {
 }
 
 func getDiceInGame(line string) []string {
-	dice := []string{}
+	gameArray := []string{}
 	_, after, _ := strings.Cut(line, ": ")
-	new := strings.Split(after, ";")
-	for _, str := range new {
-		dice = append(dice, str)
+	roundsArray := strings.Split(after, ";")
+	for _, round := range roundsArray {
+		gameArray = append(gameArray, round)
 	}
-	return dice
+	return gameArray
 }
