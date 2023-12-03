@@ -14,9 +14,7 @@ type Dice struct {
 }
 
 func main() {
-	// file, err := os.Open("input.txt")
-	// file, err := os.Open("smallInput.txt")
-	file, err := os.Open("testInput.txt")
+	file, err := os.Open("input.txt")
 	if err != nil {
 		panic(err)
 	}
@@ -25,16 +23,23 @@ func main() {
 
 	scanner := bufio.NewScanner(file)
 
-	// sum := 0
+	sum := 0
 	for scanner.Scan() {
 		line := scanner.Text()
 		rounds := getDiceInGame(line)
 		dieMap := checkValidRounds(rounds)
-		fmt.Println(dieMap)
-		// TODO:
-		// multiply all the counts in the map
-		// add the product to sum
+		product := multiplyMapValues(dieMap)
+		sum += product
 	}
+	fmt.Println(sum)
+}
+
+func multiplyMapValues(dieMap map[string]int) int {
+	product := 1
+	for key := range dieMap {
+		product *= dieMap[key]
+	}
+	return product
 }
 
 func checkValidRounds(rounds []string) map[string]int {
