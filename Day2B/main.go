@@ -27,7 +27,7 @@ func main() {
 	for scanner.Scan() {
 		line := scanner.Text()
 		rounds := getDiceInGame(line)
-		dieMap := checkValidRounds(rounds)
+		dieMap := getMaxColorCountPerRound(rounds)
 		product := multiplyMapValues(dieMap)
 		sum += product
 	}
@@ -42,7 +42,7 @@ func multiplyMapValues(dieMap map[string]int) int {
 	return product
 }
 
-func checkValidRounds(rounds []string) map[string]int {
+func getMaxColorCountPerRound(rounds []string) map[string]int {
 	diceMap := map[string]int{"red": 0, "green": 0, "blue": 0}
 	for _, round := range rounds {
 		die := strings.Split(strings.TrimSpace(round), ", ")
