@@ -26,12 +26,10 @@ func main() {
 	}
 
 	newSum := []int{}
-	counter := 0
 	symbolNumbers := []int{}
 	for i := 0; i < len(arr); i++ {
 		for j := 0; j < len(arr); j++ {
 			if !isDigit(arr[i][j]) && !isDot(arr[i][j]) {
-				counter++
 				if isDigit(arr[i][j-1]) {
 					numArr := []string{}
 					pointer := j - 1
@@ -199,7 +197,6 @@ func main() {
 			}
 			symbolNumbers = nil
 		}
-		counter = 0
 	}
 	finalSum := 0
 	for _, num := range newSum {
