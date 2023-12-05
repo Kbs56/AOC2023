@@ -31,30 +31,12 @@ func main() {
 		for j := 0; j < len(arr); j++ {
 			if !isDigit(arr[i][j]) && !isDot(arr[i][j]) {
 				if isDigit(arr[i][j-1]) {
-					numArr := []string{}
-					pointer := j - 1
-					for isDigit(arr[i][pointer]) && pointer > 0 {
-						numArr = append(numArr, arr[i][pointer])
-						pointer--
-						if pointer == 0 && isDigit(arr[i][pointer]) {
-							numArr = append(numArr, arr[i][pointer])
-						}
-					}
-					foundNumber := reverseAndReturnAsNumber(numArr)
-					symbolNumbers = append(symbolNumbers, foundNumber)
+					num := walkLeft(arr[i], j-1)
+					symbolNumbers = append(symbolNumbers, num)
 				}
 				if isDigit(arr[i][j+1]) {
-					numArr := []string{}
-					pointer := j + 1
-					for isDigit(arr[i][pointer]) && pointer < len(arr)-1 {
-						numArr = append(numArr, arr[i][pointer])
-						pointer++
-						if pointer == len(arr)-1 && isDigit(arr[i][pointer]) {
-							numArr = append(numArr, arr[i][pointer])
-						}
-					}
-					foundNumber := combineAndReturnAsNumber(numArr)
-					symbolNumbers = append(symbolNumbers, foundNumber)
+					num := walkRight(arr[i], j+1)
+					symbolNumbers = append(symbolNumbers, num)
 				}
 				if isDigit(arr[i-1][j]) {
 					leftPointer := j
@@ -76,52 +58,16 @@ func main() {
 					num := extractNumber(arr, i-1, leftPointer+1, rightPointer-1)
 					symbolNumbers = append(symbolNumbers, num)
 				} else if isDigit(arr[i-1][j-1]) && isDigit(arr[i-1][j+1]) {
-					numArr := []string{}
-					pointer := j - 1
-					for isDigit(arr[i-1][pointer]) && pointer > 0 {
-						numArr = append(numArr, arr[i-1][pointer])
-						pointer--
-						if pointer == 0 && isDigit(arr[i-1][pointer]) {
-							numArr = append(numArr, arr[i-1][pointer])
-						}
-					}
-					foundNumber := reverseAndReturnAsNumber(numArr)
-					symbolNumbers = append(symbolNumbers, foundNumber)
-					numArr = []string{}
-					pointer = j + 1
-					for isDigit(arr[i-1][pointer]) && pointer < len(arr)-1 {
-						numArr = append(numArr, arr[i-1][pointer])
-						pointer++
-						if pointer == len(arr)-1 && isDigit(arr[i-1][pointer]) {
-							numArr = append(numArr, arr[i-1][pointer])
-						}
-					}
-					foundNumber = combineAndReturnAsNumber(numArr)
-					symbolNumbers = append(symbolNumbers, foundNumber)
+					leftNumber := walkLeft(arr[i-1], j-1)
+					symbolNumbers = append(symbolNumbers, leftNumber)
+					rightNumber := walkRight(arr[i-1], j+1)
+					symbolNumbers = append(symbolNumbers, rightNumber)
 				} else if isDigit(arr[i-1][j-1]) {
-					numArr := []string{}
-					pointer := j - 1
-					for isDigit(arr[i-1][pointer]) && pointer > 0 {
-						numArr = append(numArr, arr[i-1][pointer])
-						pointer--
-						if pointer == 0 && isDigit(arr[i-1][pointer]) {
-							numArr = append(numArr, arr[i-1][pointer])
-						}
-					}
-					foundNumber := reverseAndReturnAsNumber(numArr)
-					symbolNumbers = append(symbolNumbers, foundNumber)
+					num := walkLeft(arr[i-1], j-1)
+					symbolNumbers = append(symbolNumbers, num)
 				} else if isDigit(arr[i-1][j+1]) {
-					numArr := []string{}
-					pointer := j + 1
-					for isDigit(arr[i-1][pointer]) && pointer < len(arr)-1 {
-						numArr = append(numArr, arr[i-1][pointer])
-						pointer++
-						if pointer == len(arr)-1 && isDigit(arr[i-1][pointer]) {
-							numArr = append(numArr, arr[i-1][pointer])
-						}
-					}
-					foundNumber := combineAndReturnAsNumber(numArr)
-					symbolNumbers = append(symbolNumbers, foundNumber)
+					num := walkRight(arr[i-1], j+1)
+					symbolNumbers = append(symbolNumbers, num)
 				}
 				if isDigit(arr[i+1][j]) {
 					leftPointer := j
@@ -143,52 +89,16 @@ func main() {
 					num := extractNumber(arr, i+1, leftPointer+1, rightPointer-1)
 					symbolNumbers = append(symbolNumbers, num)
 				} else if isDigit(arr[i+1][j-1]) && isDigit(arr[i+1][j+1]) {
-					numArr := []string{}
-					pointer := j - 1
-					for isDigit(arr[i+1][pointer]) && pointer > 0 {
-						numArr = append(numArr, arr[i+1][pointer])
-						pointer--
-						if pointer == 0 && isDigit(arr[i+1][pointer]) {
-							numArr = append(numArr, arr[i+1][pointer])
-						}
-					}
-					foundNumber := reverseAndReturnAsNumber(numArr)
-					symbolNumbers = append(symbolNumbers, foundNumber)
-					numArr = []string{}
-					pointer = j + 1
-					for isDigit(arr[i+1][pointer]) && pointer < len(arr)-1 {
-						numArr = append(numArr, arr[i+1][pointer])
-						pointer++
-						if pointer == len(arr)-1 && isDigit(arr[i+1][pointer]) {
-							numArr = append(numArr, arr[i+1][pointer])
-						}
-					}
-					foundNumber = combineAndReturnAsNumber(numArr)
-					symbolNumbers = append(symbolNumbers, foundNumber)
+					leftNum := walkLeft(arr[i+1], j-1)
+					symbolNumbers = append(symbolNumbers, leftNum)
+					rightNum := walkRight(arr[i+1], j+1)
+					symbolNumbers = append(symbolNumbers, rightNum)
 				} else if isDigit(arr[i+1][j-1]) {
-					numArr := []string{}
-					pointer := j - 1
-					for isDigit(arr[i+1][pointer]) && pointer > 0 {
-						numArr = append(numArr, arr[i+1][pointer])
-						pointer--
-						if pointer == 0 && isDigit(arr[i+1][pointer]) {
-							numArr = append(numArr, arr[i+1][pointer])
-						}
-					}
-					foundNumber := reverseAndReturnAsNumber(numArr)
-					symbolNumbers = append(symbolNumbers, foundNumber)
+					num := walkLeft(arr[i+1], j-1)
+					symbolNumbers = append(symbolNumbers, num)
 				} else if isDigit(arr[i+1][j+1]) {
-					numArr := []string{}
-					pointer := j + 1
-					for isDigit(arr[i+1][pointer]) && pointer < len(arr)-1 {
-						numArr = append(numArr, arr[i+1][pointer])
-						pointer++
-						if pointer == len(arr)-1 && isDigit(arr[i+1][pointer]) {
-							numArr = append(numArr, arr[i+1][pointer])
-						}
-					}
-					foundNumber := combineAndReturnAsNumber(numArr)
-					symbolNumbers = append(symbolNumbers, foundNumber)
+					num := walkRight(arr[i+1], j+1)
+					symbolNumbers = append(symbolNumbers, num)
 				}
 			}
 			if len(symbolNumbers) == 2 {
@@ -217,6 +127,34 @@ func isDot(s string) bool {
 		return true
 	}
 	return false
+}
+
+func walkLeft(arr []string, j int) int {
+	numArr := []string{}
+	pointer := j
+	for isDigit(arr[pointer]) && pointer > 0 {
+		numArr = append(numArr, arr[pointer])
+		pointer--
+		if pointer == 0 && isDigit(arr[pointer]) {
+			numArr = append(numArr, arr[pointer])
+		}
+	}
+	foundNumber := reverseAndReturnAsNumber(numArr)
+	return foundNumber
+}
+
+func walkRight(arr []string, j int) int {
+	numArr := []string{}
+	pointer := j
+	for isDigit(arr[pointer]) && pointer < len(arr)-1 {
+		numArr = append(numArr, arr[pointer])
+		pointer++
+		if pointer == len(arr)-1 && isDigit(arr[pointer]) {
+			numArr = append(numArr, arr[pointer])
+		}
+	}
+	foundNumber := combineAndReturnAsNumber(numArr)
+	return foundNumber
 }
 
 func extractNumber(arr [][]string, row int, leftIdx int, rightIdx int) int {
