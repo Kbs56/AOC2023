@@ -55,7 +55,7 @@ func main() {
 							}
 						}
 					}
-					num := extractNumber(arr, i-1, leftPointer+1, rightPointer-1)
+					num := extractNumber(arr[i-1], leftPointer+1, rightPointer-1)
 					symbolNumbers = append(symbolNumbers, num)
 				} else if isDigit(arr[i-1][j-1]) && isDigit(arr[i-1][j+1]) {
 					leftNumber := walkLeft(arr[i-1], j-1)
@@ -86,7 +86,7 @@ func main() {
 							}
 						}
 					}
-					num := extractNumber(arr, i+1, leftPointer+1, rightPointer-1)
+					num := extractNumber(arr[i+1], leftPointer+1, rightPointer-1)
 					symbolNumbers = append(symbolNumbers, num)
 				} else if isDigit(arr[i+1][j-1]) && isDigit(arr[i+1][j+1]) {
 					leftNum := walkLeft(arr[i+1], j-1)
@@ -157,10 +157,10 @@ func walkRight(arr []string, j int) int {
 	return foundNumber
 }
 
-func extractNumber(arr [][]string, row int, leftIdx int, rightIdx int) int {
+func extractNumber(arr []string, leftIdx int, rightIdx int) int {
 	numbers := []string{}
 	for leftIdx <= rightIdx {
-		numbers = append(numbers, arr[row][leftIdx])
+		numbers = append(numbers, arr[leftIdx])
 		leftIdx++
 	}
 	num, _ := strconv.Atoi(strings.Join(numbers, ""))
