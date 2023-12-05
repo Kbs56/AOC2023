@@ -25,7 +25,7 @@ func main() {
 		arr = append(arr, line)
 	}
 
-	newSum := []int{}
+	total := []int{}
 	symbolNumbers := []int{}
 	for i := 0; i < len(arr); i++ {
 		for j := 0; j < len(arr); j++ {
@@ -193,13 +193,13 @@ func main() {
 			}
 			if len(symbolNumbers) == 2 {
 				gearRatio := symbolNumbers[0] * symbolNumbers[1]
-				newSum = append(newSum, gearRatio)
+				total = append(total, gearRatio)
 			}
 			symbolNumbers = nil
 		}
 	}
 	finalSum := 0
-	for _, num := range newSum {
+	for _, num := range total {
 		finalSum += num
 	}
 	fmt.Println(finalSum)
