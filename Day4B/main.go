@@ -37,11 +37,8 @@ func main() {
 		} else {
 			cardMap = checkMapForRow(row)
 		}
+		sum += cardMap[row]
 		row++
-	}
-
-	for _, val := range cardMap {
-		sum += val
 	}
 	fmt.Println(sum)
 }
