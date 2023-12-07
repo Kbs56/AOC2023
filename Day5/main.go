@@ -53,6 +53,7 @@ func main() {
 	fmt.Println(mappings)
 }
 
+// Need to do this part now with updated struct bizness
 func findNumberInRange(seed int) int {
 	for i := 0; i < len(mappings); i++ {
 		for j := 0; j < len(mappings[i]); j++ {
