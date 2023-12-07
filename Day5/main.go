@@ -39,7 +39,7 @@ func main() {
 			stringArr := strings.Fields(lines[i])
 			nums := makeIntArray(stringArr)
 			seedRangeList := seedRange{destination: nums[0], source: nums[1], length: nums[2]}
-			fmt.Println(seedRangeList)
+			// fmt.Println(seedRangeList)
 			seedRanges = append(seedRanges, seedRangeList)
 			i++
 		}
@@ -50,17 +50,21 @@ func main() {
 		fmt.Println()
 	}
 
-	fmt.Println(mappings)
+	// fmt.Println(mappings)
+	findNumberInRange()
 }
 
 // Need to do this part now with updated struct bizness
-func findNumberInRange(seed int) int {
+func findNumberInRange() int {
 	for i := 0; i < len(mappings); i++ {
 		for j := 0; j < len(mappings[i]); j++ {
-			fmt.Println(mappings[i][j])
+			dest := mappings[i][j].destination
+			source := mappings[i][j].source
+			length := mappings[i][j].length
+			fmt.Print(dest, source, length, " ")
 		}
+		fmt.Println()
 	}
-	fmt.Println()
 	return 0
 }
 
