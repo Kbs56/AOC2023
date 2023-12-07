@@ -3,36 +3,31 @@ package main
 // https://github.com/golang/go/wiki/SliceTricks
 
 import (
-	"bufio"
 	"fmt"
 	"os"
 	"strconv"
 	"strings"
-	"unicode"
 )
 
 func main() {
-	file, err := os.Open("testInput.txt")
+	filePath := "testInput.txt"
+
+	fileContent, err := os.ReadFile(filePath)
 	if err != nil {
 		panic(err)
 	}
 
-	defer file.Close()
+	lines := strings.Split(strings.TrimSpace(string(fileContent)), "\n")
 
-	scanner := bufio.NewScanner(file)
-
-	scanner.Scan()
-	line := scanner.Text()
-	seeds := getSeedNumbers(line)
+	seeds := getSeedNumbers(lines[0])
 	fmt.Println(seeds)
 
-	// Scan the rest of the lines
-	for scanner.Scan() {
-		line := scanner.Text()
-		if len(line) > 0 {
-			if unicode.IsNumber(rune(line[0])) {
-				fmt.Println(line)
-			}
+	// something to hold list of mappings here
+
+	for i := 2; i < len(lines); i++ {
+		for i < len(lines) && len(lines[i]) > 0 {
+			fmt.Println(lines[i])
+			i++
 		}
 	}
 }
