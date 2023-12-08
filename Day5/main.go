@@ -1,10 +1,9 @@
 package main
 
-// https://github.com/golang/go/wiki/SliceTricks
-
 import (
 	"fmt"
 	"os"
+	"slices"
 	"strconv"
 	"strings"
 	"unicode"
@@ -22,7 +21,7 @@ var (
 )
 
 func main() {
-	filePath := "testInput.txt"
+	filePath := "input.txt"
 
 	fileContent, err := os.ReadFile(filePath)
 	if err != nil {
@@ -39,7 +38,6 @@ func main() {
 			stringArr := strings.Fields(lines[i])
 			nums := makeIntArray(stringArr)
 			seedRangeList := seedRange{destination: nums[0], source: nums[1], length: nums[2]}
-			// fmt.Println(seedRangeList)
 			seedRanges = append(seedRanges, seedRangeList)
 			i++
 		}
@@ -47,25 +45,31 @@ func main() {
 		if len(seedRanges) > 0 {
 			mappings = append(mappings, seedRanges)
 		}
-		fmt.Println()
 	}
 
-	// fmt.Println(mappings)
-	findNumberInRange()
+	locations := []int{}
+	for _, seed := range seeds {
+		seedMapping := findNumberInRange(seed)
+		locations = append(locations, seedMapping)
+	}
+
+	fmt.Println(slices.Min(locations))
 }
 
-// Need to do this part now with updated struct bizness
-func findNumberInRange() int {
+func findNumberInRange(seed int) int {
+	currentNum := seed
 	for i := 0; i < len(mappings); i++ {
 		for j := 0; j < len(mappings[i]); j++ {
 			dest := mappings[i][j].destination
 			source := mappings[i][j].source
 			length := mappings[i][j].length
-			fmt.Print(dest, source, length, " ")
+			if source <= currentNum && currentNum < source+length {
+				currentNum = dest + (currentNum - source)
+				break
+			}
 		}
-		fmt.Println()
 	}
-	return 0
+	return currentNum
 }
 
 func makeIntArray(arr []string) []int {
