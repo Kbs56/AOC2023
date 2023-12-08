@@ -112,7 +112,7 @@ func getSets(lines []string) []set {
 
 func GetInput(day int, test bool) []string {
 	dat, err := os.ReadFile("../Day5/input.txt")
-	Check(err)
+	check(err)
 
 	lines := strings.Split(string(dat), "\n")
 
@@ -129,7 +129,7 @@ func getNumbers(line string) []int {
 	for _, match := range f {
 		valueStr := line[match[0]:match[1]]
 		val, err := strconv.Atoi(valueStr)
-		Check(err)
+		check(err)
 
 		numbers = append(numbers, val)
 	}
@@ -137,7 +137,7 @@ func getNumbers(line string) []int {
 	return numbers
 }
 
-func Check(e error) {
+func check(e error) {
 	if e != nil {
 		panic(e)
 	}
