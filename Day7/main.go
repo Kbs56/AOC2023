@@ -19,9 +19,23 @@ type Hand struct {
 }
 
 func main() {
-	fmt.Println("Hello")
-	fmt.Println(HIGH_CARD)
+	// Raead file and parse cards line by line
+	testMap := make(map[string]int)
+	testStr := "ATJKQQ"
+	for i := 0; i < len(testStr); i++ {
+		val, ok := testMap[string(testStr[i])]
+		if ok {
+			fmt.Println("yes", val)
+			testMap[string(testStr[i])] = val + 1
+		} else {
+			fmt.Println("no", val)
+			testMap[string(testStr[i])] = 1
+		}
+	}
+	fmt.Println(testMap)
 }
+
+// Method to get frequency of cards in each hand and assign strength
 
 // Sort the Hands (asc) into []Hand
 // Figure out how to settle tiebreakers
