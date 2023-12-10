@@ -1,6 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+)
 
 const (
 	HIGH_CARD      int = 0
@@ -19,23 +25,44 @@ type Hand struct {
 }
 
 func main() {
-	// Raead file and parse cards line by line
-	testMap := make(map[string]int)
-	testStr := "ATJKQQ"
-	for i := 0; i < len(testStr); i++ {
-		val, ok := testMap[string(testStr[i])]
-		if ok {
-			fmt.Println("yes", val)
-			testMap[string(testStr[i])] = val + 1
-		} else {
-			fmt.Println("no", val)
-			testMap[string(testStr[i])] = 1
-		}
+	file, _ := os.Open("testInput.txt")
+
+	scanner := bufio.NewScanner(file)
+
+	allHands := []Hand{}
+
+	for scanner.Scan() {
+		line := scanner.Text()
+		handLine := strings.Split(line, " ")
+
+		hand := strings.Split(handLine[0], "")
+		bid, _ := strconv.Atoi(handLine[1])
+
+		handStrength := calcHandStrength(hand)
+		currentHand := Hand{cards: hand, bid: bid, strength: handStrength}
+		allHands = append(allHands, currentHand)
 	}
-	fmt.Println(testMap)
+	fmt.Println(allHands)
 }
 
-// Method to get frequency of cards in each hand and assign strength
+func calcHandStrength(hand []string) int {
+	handMap := make(map[string]int)
+	for _, ch := range hand {
+		val, ok := handMap[ch]
+		if ok {
+			handMap[ch] = val + 1
+		} else {
+			handMap[ch] = 1
+		}
+	}
+	fmt.Println(handMap)
+	handStrength := parseHandMap(handMap)
+	return handStrength
+}
+
+func parseHandMap(handMap map[string]int) int {
+	return 0
+}
 
 // Sort the Hands (asc) into []Hand
 // Figure out how to settle tiebreakers
