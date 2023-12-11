@@ -17,8 +17,7 @@ func main() {
 	// contents, _ := os.ReadFile("input.txt")
 
 	lines := strings.Split(string(contents), "\n")
-
-	fmt.Println(string(lines[0]))
+	directions := strings.TrimSpace(lines[0])
 
 	// populate map
 	nodeMap := make(map[string]Node)
@@ -29,6 +28,18 @@ func main() {
 		right := line[1][6:9]
 		node := Node{left: left, right: right}
 		nodeMap[head] = node
+	}
+	fmt.Println(nodeMap)
+
+	turns := 0
+	p1 := 0
+	for turns < 6 {
+		fmt.Print(string(lines[0][p1]))
+		p1++
+		if p1 == len(directions) {
+			p1 = 0
+		}
+		turns++
 	}
 }
 
