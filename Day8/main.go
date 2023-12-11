@@ -12,14 +12,13 @@ type Node struct {
 }
 
 func main() {
-	contents, _ := os.ReadFile("testInput1.txt")
-	// contents, _ := os.ReadFile("testInput2.txt")
-	// contents, _ := os.ReadFile("input.txt")
+	contents, _ := os.ReadFile("input.txt")
 
 	lines := strings.Split(string(contents), "\n")
 	directions := strings.TrimSpace(lines[0])
 
-	// populate map
+	firstKey := "AAA"
+
 	nodeMap := make(map[string]Node)
 	for i := 2; i < len(lines)-1; i++ {
 		line := strings.Split(lines[i], " = ")
@@ -29,21 +28,24 @@ func main() {
 		node := Node{left: left, right: right}
 		nodeMap[head] = node
 	}
-	fmt.Println(nodeMap)
 
 	turns := 0
-	p1 := 0
-	for turns < 6 {
-		fmt.Print(string(lines[0][p1]))
-		p1++
-		if p1 == len(directions) {
-			p1 = 0
+	turnPointer := 0
+	currentKey := firstKey
+	currentValue := ""
+	for currentValue != "ZZZ" {
+		if string(directions[turnPointer]) == "L" {
+			currentValue = nodeMap[currentKey].left
+			currentKey = currentValue
+		} else {
+			currentValue = nodeMap[currentKey].right
+			currentKey = currentValue
+		}
+		turnPointer++
+		if turnPointer == len(directions) {
+			turnPointer = 0
 		}
 		turns++
 	}
+	fmt.Println(turns)
 }
-
-// while left/right node val (depending on current instruction) != ZZZ
-// look up map value and children (while we aren't lookin at ZZZ and pointer != len (lines[0]))
-// if pointing at the last element reset pointer to beginning of lines[0]
-// Keep track of number of turns to find ZZZ
