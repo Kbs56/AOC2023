@@ -18,8 +18,8 @@ var (
 )
 
 func main() {
-	// contents, _ := os.ReadFile("testInput.txt")
-	contents, _ := os.ReadFile("../Day8/input.txt")
+	contents, _ := os.ReadFile("testInput.txt")
+	// contents, _ := os.ReadFile("../Day8/input.txt")
 
 	lines := strings.Split(string(contents), "\n")
 	directions := strings.TrimSpace(lines[0])
@@ -58,7 +58,8 @@ func main() {
 		}
 		turns++
 		isDone = checkRetVals(startingNodes)
-		fmt.Println(isDone)
+		fmt.Println("Is Done:", isDone)
+		fmt.Println("Turns:", turns)
 		fmt.Println()
 		// isDone = true
 	}
@@ -70,10 +71,8 @@ func followMapMove(startingNode, direction string) string {
 	currentValue := ""
 	if direction == "L" {
 		currentValue = nodeMap[currentKey].left
-		currentKey = currentValue
 	} else {
 		currentValue = nodeMap[currentKey].right
-		currentKey = currentValue
 	}
 	return currentValue
 }
