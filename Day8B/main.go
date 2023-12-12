@@ -14,7 +14,6 @@ type Node struct {
 var (
 	nodeMap       = make(map[string]Node)
 	startingNodes = []string{}
-	returnNodes   = []string{}
 )
 
 func main() {
