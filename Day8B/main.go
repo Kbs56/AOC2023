@@ -18,12 +18,10 @@ var (
 )
 
 func main() {
-	contents, _ := os.ReadFile("testInput.txt")
-	// contents, _ := os.ReadFile("../Day8/input.txt")
+	contents, _ := os.ReadFile("../Day8/input.txt")
 
 	lines := strings.Split(string(contents), "\n")
 	directions := strings.TrimSpace(lines[0])
-	fmt.Println(directions)
 
 	for i := 2; i < len(lines)-1; i++ {
 		line := strings.Split(lines[i], " = ")
@@ -37,44 +35,52 @@ func main() {
 		nodeMap[head] = node
 	}
 
-	fmt.Println(startingNodes)
+	turns := []int{}
+	for _, node := range startingNodes {
+		numOfTurns := followMapMove(node, directions)
+		turns = append(turns, numOfTurns)
+	}
 
+	ans := LCM(turns)
+	fmt.Println(ans)
+}
+
+func LCM(turns []int) int {
+	result := turns[0]
+
+	for i := 0; i < len(turns); i++ {
+		result = result * turns[i] / GCD(result, turns[i])
+	}
+
+	return result
+}
+
+func GCD(a, b int) int {
+	for b != 0 {
+		t := b
+		b = a % b
+		a = t
+	}
+	return a
+}
+
+func followMapMove(startingNode, directions string) int {
 	turns := 0
 	turnPointer := 0
-	isDone := false
-	for isDone == false {
-		// for turns < 10 {
-		fmt.Println("Looking:", string(directions[turnPointer]))
-		for i, node := range startingNodes {
-			fmt.Println("Eval:", node)
-			val := followMapMove(node, string(directions[turnPointer]))
-			fmt.Println("Return value:", val)
-			startingNodes[i] = val
+	currentValue := startingNode
+	for string(currentValue[2]) != "Z" {
+		if string(directions[turnPointer]) == "L" {
+			currentValue = nodeMap[currentValue].left
+		} else {
+			currentValue = nodeMap[currentValue].right
 		}
-		fmt.Println("Return vals:", startingNodes)
 		turnPointer++
 		if turnPointer == len(directions) {
 			turnPointer = 0
 		}
 		turns++
-		isDone = checkRetVals(startingNodes)
-		fmt.Println("Is Done:", isDone)
-		fmt.Println("Turns:", turns)
-		fmt.Println()
-		// isDone = true
 	}
-	fmt.Println(turns)
-}
-
-func followMapMove(startingNode, direction string) string {
-	currentKey := startingNode
-	currentValue := ""
-	if direction == "L" {
-		currentValue = nodeMap[currentKey].left
-	} else {
-		currentValue = nodeMap[currentKey].right
-	}
-	return currentValue
+	return turns
 }
 
 func checkRetVals(retVals []string) bool {
