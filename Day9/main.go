@@ -1,25 +1,41 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"os"
+	"strconv"
+	"strings"
 )
 
-var testArr = []int{10, 13, 16, 21, 30, 45}
-
-// var testArr = []int{1, 3, 6, 10, 15, 21}
-
 func main() {
-	// Parse input into arrays for each line
-	// Need to do this for each array in the input
-	predictionArr := [][]int{}
-	patternedArr := getDiff(testArr, len(testArr), predictionArr)
+	file, _ := os.Open("testInput.txt")
 
-	currentNum := 0
-	for i := len(patternedArr) - 1; i > 0; i-- {
-		currentNum += patternedArr[i-1][len(patternedArr[i-1])-1]
+	scanner := bufio.NewScanner(file)
+
+	sum := 0
+	for scanner.Scan() {
+		text := scanner.Text()
+		data := strings.Fields(text)
+		numberArr := []int{}
+		for _, num := range data {
+			convertedNumber, _ := strconv.Atoi(num)
+			numberArr = append(numberArr, convertedNumber)
+		}
+		// Parse input into arrays for each line
+		// Need to do this for each array in the input
+		predictionArr := [][]int{}
+		patternedArr := getDiff(numberArr, len(numberArr), predictionArr)
+
+		currentNum := 0
+		for i := len(patternedArr) - 1; i > 0; i-- {
+			currentNum += patternedArr[i-1][len(patternedArr[i-1])-1]
+		}
+		// Add current num to a sum
+		fmt.Println(currentNum)
+		sum += currentNum
 	}
-	// Add current num to a sum
-	fmt.Println(currentNum)
+	fmt.Println(sum)
 }
 
 func getDiff(arr []int, length int, predictionArr [][]int) [][]int {
