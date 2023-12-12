@@ -22,8 +22,6 @@ func main() {
 			convertedNumber, _ := strconv.Atoi(num)
 			numberArr = append(numberArr, convertedNumber)
 		}
-		// Parse input into arrays for each line
-		// Need to do this for each array in the input
 		predictionArr := [][]int{}
 		patternedArr := getDiff(numberArr, len(numberArr), predictionArr)
 
@@ -31,8 +29,6 @@ func main() {
 		for i := len(patternedArr) - 1; i > 0; i-- {
 			currentNum += patternedArr[i-1][len(patternedArr[i-1])-1]
 		}
-		// Add current num to a sum
-		fmt.Println(currentNum)
 		sum += currentNum
 	}
 	fmt.Println(sum)
