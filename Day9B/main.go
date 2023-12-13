@@ -4,13 +4,13 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"slices"
 	"strconv"
 	"strings"
 )
 
 func main() {
-	// file, _ := os.Open("input.txt")
-	file, _ := os.Open("../Day9/testInput.txt")
+	file, _ := os.Open("../Day9/input.txt")
 
 	scanner := bufio.NewScanner(file)
 
@@ -18,6 +18,7 @@ func main() {
 	for scanner.Scan() {
 		text := scanner.Text()
 		data := strings.Fields(text)
+		slices.Reverse(data)
 		numberArr := []int{}
 		for _, num := range data {
 			convertedNumber, _ := strconv.Atoi(num)
